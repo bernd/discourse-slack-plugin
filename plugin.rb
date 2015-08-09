@@ -20,6 +20,7 @@ after_initialize do
       request.body = {
         :username => Discourse.current_hostname,
         :icon_emoji => SiteSetting.slack_emoji,
+        :channel => SiteSetting.slack_channel,
         :attachments => [
           {
             :fallback => "New topic by #{user.name} - #{topic.title} - #{Topic.url(topic.id, topic.slug)}",

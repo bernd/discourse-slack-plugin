@@ -5,6 +5,9 @@ slack:
   slack_url:
     client: true
     default: '<incoming webhook url>'
+  slack_channel:
+    client: true
+    default: '#general'
   slack_emoji:
     client: true
     default: ':discourse:'
