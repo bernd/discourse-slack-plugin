@@ -4,6 +4,10 @@ Discourse Slack Plugin
 This [discourse](http://www.discourse.org/) plugin sends a notification to
 a Slack channel for each newly created topic.
 
+## Tested Discourse Versions
+
+* 1.3.x
+
 ## Installation
 
 Please read the offical discourse [plugin installation](https://meta.discourse.org/t/install-a-plugin/19157)
