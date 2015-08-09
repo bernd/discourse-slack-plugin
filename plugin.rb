@@ -11,6 +11,8 @@ after_initialize do
     begin
       topic, opts, user = params
 
+      topic_url = Topic.url(topic.id, topic.slug)
+
       uri = URI.parse(SiteSetting.slack_url)
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.scheme == 'https'
@@ -23,10 +25,10 @@ after_initialize do
         :channel => SiteSetting.slack_channel,
         :attachments => [
           {
-            :fallback => "New discourse topic by #{user.name} - #{topic.title} - #{Topic.url(topic.id, topic.slug)}",
+            :fallback => "New discourse topic by #{user.name} - #{topic.title} - #{topic_url}",
             :pretext => "New discourse topic by #{user.name}",
             :title => topic.title,
-            :title_link => Topic.url(topic.id, topic.slug),
+            :title_link => topic_url,
             :text => topic.excerpt
           }
         ]
@@ -35,9 +37,9 @@ after_initialize do
       response = http.request(request)
       case response
       when Net::HTTPSuccess
-        # Everything is fine!
+        Rails.logger.info("Slack webhook successfully sent to #{uri.host}. (topic: #{topic_url})")
       else
-        Rails.logger.error("#{uri}: #{response.code} - #{response.message}")
+        Rails.logger.error("#{uri.host}: #{response.code} - #{response.message}")
       end
     rescue => e
       Rails.logger.error("Error sending Slack hook: #{e.message}")
