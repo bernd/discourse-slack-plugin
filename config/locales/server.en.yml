@@ -2,3 +2,4 @@ en:
   site_settings:
     slack_enabled: 'Check this to enable the Slack integration.'
     slack_url: 'Slack URL including access token.'
+    slack_emoji: 'Slack emoji to use.'

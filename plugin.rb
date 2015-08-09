@@ -1,6 +1,6 @@
 # name: slack
 # about: Post new discourse content to Slack
-# version: 0.1.0
+# version: 0.2.0
 # authors: Bernd Ahlers
 # url: https://github.com/bernd/discourse-slack-plugin
 
@@ -8,24 +8,38 @@ after_initialize do
   DiscourseEvent.on(:topic_created) do |*params|
     next unless SiteSetting.slack_enabled
 
-    Rails.logger.info("Slack Data: #{params.inspect}")
+    begin
+      topic, opts, user = params
 
-    next
+      uri = URI.parse(SiteSetting.slack_url)
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true if uri.scheme == 'https'
 
-    uri = URI.parse(SiteSetting.slack_url)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.scheme == 'https'
+      request = Net::HTTP::Post.new(uri.path)
+      request.add_field('Content-Type', 'application/json')
+      request.body = {
+        :username => Discourse.current_hostname,
+        :icon_emoji => SiteSetting.slack_emoji,
+        :attachments => [
+          {
+            :fallback => "New topic by #{user.name} - #{topic.title} - #{Topic.url(topic.id, topic.slug)}",
+            :pretext => "New topic by #{user.name}",
+            :title => topic.title,
+            :title_link => Topic.url(topic.id, topic.slug),
+            :text => topic.excerpt
+          }
+        ]
+      }.to_json
 
-    request = Net::HTTP::Post.new(uri.path)
-    request.add_field('Content-Type', 'application/json')
-    request.body = params.to_json
-
-    response = http.request(request)
-    case response
-    when Net::HTTPSuccess
-      # Everything is fine!
-    else
-      Rails.logger.error("#{uri}: #{response.code} - #{response.message}")
+      response = http.request(request)
+      case response
+      when Net::HTTPSuccess
+        # Everything is fine!
+      else
+        Rails.logger.error("#{uri}: #{response.code} - #{response.message}")
+      end
+    rescue => e
+      Rails.logger.error("Error sending Slack hook: #{e.message}")
     end
   end
 end
