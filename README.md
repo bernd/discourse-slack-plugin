@@ -49,6 +49,12 @@ Example:
 
 ![Discourse slack configuration](/images/discourse-slack-config.png)
 
+## Slack Example Notification
+
+This is how it looks like in slack. (with a custom emoji for the discourse logo)
+
+![Discourse slack example notification](/images/discourse-slack-example-notification.png)
+
 ## Contributions
 
 All contributions are welcome!
