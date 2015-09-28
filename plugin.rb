@@ -25,8 +25,8 @@ after_initialize do
         :channel => SiteSetting.slack_channel,
         :attachments => [
           {
-            :fallback => "New discourse topic by #{user.name} - #{topic.title} - #{topic_url}",
-            :pretext => "New discourse topic by #{user.name}",
+            :fallback => "New topic by #{user.name} - #{topic.title} - #{topic_url}",
+            :pretext => "New topic by #{user.name}:",
             :title => topic.title,
             :title_link => topic_url,
             :text => topic.excerpt
