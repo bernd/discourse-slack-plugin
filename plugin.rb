@@ -20,7 +20,7 @@ after_initialize do
       request = Net::HTTP::Post.new(uri.path)
       request.add_field('Content-Type', 'application/json')
       request.body = {
-        :username => Discourse.current_hostname,
+        :username => SiteSetting.title,
         :icon_emoji => SiteSetting.slack_emoji,
         :channel => SiteSetting.slack_channel,
         :attachments => [
