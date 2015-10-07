@@ -13,6 +13,7 @@ after_initialize do
       topic = post.topic
 
       next if topic.try(:private_message?)
+      next if !SiteSetting.slack_posts && !post.try(:is_first_post?)
 
       post_url = "#{Discourse.base_url}#{post.url}"
 
