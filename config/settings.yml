@@ -11,3 +11,6 @@ slack:
   slack_emoji:
     client: true
     default: ':discourse:'
+  slack_posts:
+    client: true
+    default: false
