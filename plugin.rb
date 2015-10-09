@@ -10,7 +10,9 @@ after_initialize do
 
     begin
       topic, opts, user = params
-
+      
+      next if topic.try(:private_message?)
+      
       topic_url = Topic.url(topic.id, topic.slug)
 
       uri = URI.parse(SiteSetting.slack_url)
