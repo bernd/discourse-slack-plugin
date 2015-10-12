@@ -14,6 +14,8 @@ after_initialize do
 
       next if topic.try(:private_message?)
       next if !SiteSetting.slack_posts && !post.try(:is_first_post?)
+      next if post.post_type == Post.types[:small_action]
+      next if post.post_type == Post.types[:moderator_action]
 
       post_url = "#{Discourse.base_url}#{post.url}"
 
