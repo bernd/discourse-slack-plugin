@@ -4,3 +4,4 @@ en:
     slack_url: 'Slack URL including access token.'
     slack_channel: 'Slack channel to post this message to. (i.e. #general, @username)'
     slack_emoji: 'Slack emoji to use.'
+    slack_posts: 'Post all new posts to Slack (not just new topics).'
