@@ -31,8 +31,8 @@ after_initialize do
         :channel => SiteSetting.slack_channel,
         :attachments => [
           {
-            :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{user.name} - #{post_url}",
-            :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{user.name}:",
+            :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{user.username} - #{post_url}",
+            :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{user.username}:",
             :title => topic.title,
             :title_link => post_url,
             :text => post.excerpt(200, text_entities: true, strip_links: true)
