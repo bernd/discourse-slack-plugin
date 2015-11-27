@@ -23,7 +23,7 @@ after_initialize do
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.scheme == 'https'
 
-      display_name = (SiteSetting.slack_full_names && user.try(:name)) ? user.name : user.username
+      display_name = (SiteSetting.slack_full_names && user.try(:name) && user.name.length > 0) ? user.name : user.username
 
       request = Net::HTTP::Post.new(uri.path)
       request.add_field('Content-Type', 'application/json')
