@@ -23,6 +23,8 @@ after_initialize do
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.scheme == 'https'
 
+      display_name = (SiteSetting.slack_full_names && user.try(:name)) ? user.name : user.username
+
       request = Net::HTTP::Post.new(uri.path)
       request.add_field('Content-Type', 'application/json')
       request.body = {
@@ -31,8 +33,8 @@ after_initialize do
         :channel => SiteSetting.slack_channel,
         :attachments => [
           {
-            :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{user.username} - #{post_url}",
-            :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{user.username}:",
+            :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{display_name} - #{post_url}",
+            :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{display_name}:",
             :title => topic.title,
             :title_link => post_url,
             :text => post.excerpt(200, text_entities: true, strip_links: true)
