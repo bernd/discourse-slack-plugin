@@ -5,3 +5,4 @@ en:
     slack_channel: 'Slack channel to post this message to. (i.e. #general, @username)'
     slack_emoji: 'Slack emoji to use.'
     slack_posts: 'Post all new posts to Slack (not just new topics).'
+    slack_full_names: 'Shows user full names instead of usernames (shows username if user did not set one)'
