@@ -23,6 +23,8 @@ after_initialize do
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.scheme == 'https'
 
+      channel = SiteSetting.slack_channel.gsub(/{category}/, topic.category.name.downcase)
+
       display_name = (SiteSetting.slack_full_names && user.try(:name) && user.name.length > 0) ? user.name : user.username
 
       request = Net::HTTP::Post.new(uri.path)
@@ -30,7 +32,7 @@ after_initialize do
       request.body = {
         :username => SiteSetting.title,
         :icon_emoji => SiteSetting.slack_emoji,
-        :channel => SiteSetting.slack_channel,
+        :channel => channel,
         :attachments => [
           {
             :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{display_name} - #{post_url}",
