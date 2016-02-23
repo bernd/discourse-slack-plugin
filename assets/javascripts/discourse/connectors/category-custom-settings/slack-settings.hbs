@@ -1,0 +1,10 @@
+{{#if siteSettings.allow_category_slack_channel}}
+<section class='field'>
+  <div class="slack-channel">
+    <label>
+      {{i18n 'slack.channel'}}
+      {{text-field value=category.slack_channel class="position-input"}}
+    </label>
+  </div>
+</section>
+{{/if}}

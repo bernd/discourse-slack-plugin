@@ -17,3 +17,6 @@ slack:
   slack_full_names:
     client: true
     default: true
+  allow_category_slack_channel:
+    client: true
+    default: false

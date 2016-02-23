@@ -6,3 +6,4 @@ en:
     slack_emoji: 'Slack emoji to use.'
     slack_posts: 'Post all new posts to Slack (not just new topics).'
     slack_full_names: 'Shows user full names instead of usernames (shows username if user did not set one)'
+    allow_category_slack_channel: 'Allows each category to specify a Slack channel to post to, falls back to parent categories or the global channel'
