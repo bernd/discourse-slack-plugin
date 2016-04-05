@@ -46,6 +46,8 @@ after_initialize do
         end
       end
 
+      next if channel.blank?
+
       request = Net::HTTP::Post.new(uri.path)
       request.add_field('Content-Type', 'application/json')
       request.body = {
