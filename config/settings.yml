@@ -20,3 +20,6 @@ slack:
   allow_category_slack_channel:
     client: true
     default: false
+  slack_category_name_in_title:
+    client: true
+    default: false

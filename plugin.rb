@@ -28,9 +28,9 @@ after_initialize do
       # Default to the global site channel
       channel = SiteSetting.slack_channel
 
+      category = topic.category
       # We might have a category specific channel to post to
       if SiteSetting.allow_category_slack_channel
-        category = topic.category
 
         # We walk up the categories to the root unless we find a
         # channel setting on the category
@@ -46,6 +46,10 @@ after_initialize do
         end
       end
 
+      next if channel.blank?
+
+      show_category_name = SiteSetting.slack_category_name_in_title
+
       request = Net::HTTP::Post.new(uri.path)
       request.add_field('Content-Type', 'application/json')
       request.body = {
@@ -56,7 +60,7 @@ after_initialize do
           {
             :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{display_name} - #{post_url}",
             :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{display_name}:",
-            :title => topic.title,
+            :title => (show_category_name ? "[" + category.name + "] " : "") + topic.title,
             :title_link => post_url,
             :text => post.excerpt(200, text_entities: false, strip_links: true)
           }
