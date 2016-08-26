@@ -62,7 +62,7 @@ after_initialize do
             :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{display_name}:",
             :title => (show_category_name ? "[" + category.name + "] " : "") + topic.title,
             :title_link => post_url,
-            :text => post.excerpt(200, text_entities: false, strip_links: true)
+            :text => post.excerpt(200, text_entities: true, strip_links: true)
           }
         ]
       }.to_json
