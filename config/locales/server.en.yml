@@ -2,7 +2,9 @@ en:
   site_settings:
     slack_enabled: 'Check this to enable the Slack integration.'
     slack_url: 'Slack URL including access token.'
-    slack_channel: 'Slack channel to post this message to. (i.e. #general, @username)'
+    slack_channel: 'Slack channel to post this message to. (i.e. #general, @username). Leaving blank for no fallback is helpful if using "allow category slack channel" setting.'
     slack_emoji: 'Slack emoji to use.'
     slack_posts: 'Post all new posts to Slack (not just new topics).'
     slack_full_names: 'Shows user full names instead of usernames (shows username if user did not set one)'
+    allow_category_slack_channel: 'Allows each category to specify a Slack channel to post to, falls back to parent categories or the global channel'
+    slack_category_name_in_title: 'Display the category name in the title of the post sent to Slack (e.g., "[category name] topic title")'

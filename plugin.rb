@@ -25,17 +25,42 @@ after_initialize do
 
       display_name = (SiteSetting.slack_full_names && user.try(:name) && user.name.length > 0) ? user.name : user.username
 
+      # Default to the global site channel
+      channel = SiteSetting.slack_channel
+
+      category = topic.category
+      # We might have a category specific channel to post to
+      if SiteSetting.allow_category_slack_channel
+
+        # We walk up the categories to the root unless we find a
+        # channel setting on the category
+        while category != nil do
+          cat_channel = category.custom_fields["slack_channel"]
+
+          if cat_channel != nil
+            channel = cat_channel
+            break
+          end
+
+          category = category.parent_category
+        end
+      end
+
+      next if channel.blank?
+
+      show_category_name = SiteSetting.slack_category_name_in_title
+
       request = Net::HTTP::Post.new(uri.path)
       request.add_field('Content-Type', 'application/json')
       request.body = {
         :username => SiteSetting.title,
         :icon_emoji => SiteSetting.slack_emoji,
-        :channel => SiteSetting.slack_channel,
+        :channel => channel,
         :attachments => [
           {
             :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{display_name} - #{post_url}",
             :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{display_name}:",
-            :title => topic.title,
+            :title => (show_category_name ? "[" + category.name + "] " : "") + topic.title,
             :title_link => post_url,
             :text => post.excerpt(200, text_entities: true, strip_links: true)
           }

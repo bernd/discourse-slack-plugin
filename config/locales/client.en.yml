@@ -4,3 +4,6 @@ en:
       site_settings:
         categories:
           slack: 'Slack'
+  js:
+    slack:
+      channel: "Slack channel"
