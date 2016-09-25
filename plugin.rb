@@ -18,6 +18,7 @@ after_initialize do
       next if post.post_type == Post.types[:moderator_action]
 
       post_url = "#{Discourse.base_url}#{post.url}"
+      user_url = "#{Discourse.base_url}/users/#{user.username_lower}"
 
       uri = URI.parse(SiteSetting.slack_url)
       http = Net::HTTP.new(uri.host, uri.port)
@@ -59,10 +60,13 @@ after_initialize do
         :attachments => [
           {
             :fallback => "New " + (post.try(:is_first_post?) ? "topic" : "post in #{topic.title}") + " by #{display_name} - #{post_url}",
-            :pretext => "New " + (post.try(:is_first_post?) ? "topic" : "post") + " by #{display_name}:",
+            :author_icon => user.small_avatar_url,
+            :author_name => display_name,
+            :author_link => user_url,
             :title => (show_category_name ? "[" + category.name + "] " : "") + topic.title,
             :title_link => post_url,
-            :text => post.excerpt(200, text_entities: true, strip_links: true)
+            :text => post.excerpt(200, text_entities: true, strip_links: true),
+            :ts => post.created_at.to_i
           }
         ]
       }.to_json
