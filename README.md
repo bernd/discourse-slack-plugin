@@ -1,6 +1,11 @@
 Discourse Slack Plugin
 ======================
 
+**ATTENTION:** Consider using the offical discourse Slack plugin instead:
+
+* https://meta.discourse.org/t/the-official-discourse-slack-plugin/51412
+* https://github.com/discourse/discourse-slack-official
+
 This [discourse](http://www.discourse.org/) plugin sends a notification to
 a Slack channel for each newly created topic.
 
