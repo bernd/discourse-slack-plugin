@@ -23,6 +23,8 @@ after_initialize do
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true if uri.scheme == 'https'
 
+      channel = SiteSetting.slack_channel.gsub(/{category}/, topic.category.name.downcase)
+
       display_name = (SiteSetting.slack_full_names && user.try(:name) && user.name.length > 0) ? user.name : user.username
 
       # Default to the global site channel
